@@ -60,10 +60,10 @@ const Login = (props: any) => {
         <div className={classes.backgroundStyling}>
             <header className={classes.headerClass}>
                 <Container className={classes.containerClass} maxWidth="sm">
-                    <Typography className={classes.companyName} variant="h4"> Company Name </Typography>
+                    <img src={`https://software-dev-proj.s3-us-west-1.amazonaws.com/Maverick_Manufacturing_Logo.png`} style={{width: "400px"}} />
                     <Divider />
 
-                    <div style={{ marginTop: "20px" }}>
+                    <div style={{ marginTop: "10px" }}>
                         <LockIcon />
                         <Typography variant="h6" style={{ marginBottom: "6px" }}> Sign In </Typography>
 
@@ -105,7 +105,7 @@ const Login = (props: any) => {
                             </Button>
 
                             <Button className={classes.forgotPassword} >
-                                <Link to='/resetPassword' style={{textDecoration: 'none'}}> Forgot Password </Link>
+                                <Link to='/resetpassword' style={{textDecoration: 'none'}}> Forgot Password </Link>
                             </Button>
                                 
 
