@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: 600,
         },
         inputSpacing: {
-            marginBottom: "20px"
+            marginBottom: "20px",
+            marginTop: "10px"
         },
         divSpacing: {
             marginTop: '10px'
@@ -69,13 +70,13 @@ const ForgotPassword = (props: any) => {
             <header className={classes.headerClass}>
                 <Container className={classes.containerClass} maxWidth="sm">
                     <Link to='/'> <ArrowBackIcon className={classes.backArrow} /> </Link>
-                    <Typography className={classes.companyName} variant="h4"> Company Name </Typography>
+                    <img src={`https://software-dev-proj.s3-us-west-1.amazonaws.com/Maverick_Manufacturing_Logo.png`} style={{width: "400px"}} />
                     <Divider />
 
                     <div style={{ marginTop: "20px" }}>
                         <LockIcon />
-                        <Typography variant="h6" style={{ marginBottom: "6px" }}> Forgot password? </Typography>
-                        <Typography variant='body2'> We just need your phone number to send you a temporary password. </Typography>
+                        <Typography variant="h6"> Forgot password? </Typography>
+                        <Typography variant='caption'> We just need your phone number to send you a temporary password. </Typography>
 
                         <div className={classes.inputSpacing}>
                             <TextField
