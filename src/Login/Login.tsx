@@ -62,7 +62,7 @@ const Login = (props: any) => {
                 <Container className={classes.containerClass} maxWidth="sm">
                     <img src={`https://software-dev-proj.s3-us-west-1.amazonaws.com/Maverick_Manufacturing_Logo.png`} style={{width: "400px"}} />
                     <Divider />
-
+                        {console.log(props)}
                     <div style={{ marginTop: "10px" }}>
                         <LockIcon />
                         <Typography variant="h6" style={{ marginBottom: "6px" }}> Sign In </Typography>
