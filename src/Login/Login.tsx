@@ -101,7 +101,7 @@ const Login = (props: any) => {
 
                         <div className={classes.divSpacing}>
                             <Button variant='contained' className={classes.button}>
-                                Sign In
+                                <Link to='/home'> Sign In </Link>    
                             </Button>
 
                             <Button className={classes.forgotPassword} >
