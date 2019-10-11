@@ -18,7 +18,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { Link } from 'react-router-dom';
-import InventoryUI from '../DrawerCategories/InventoryUI';
+import InventoryUI from '../Inventory/InventoryUI';
+import Orders from '../Orders/Orders';
+import PlaceOrder from '../Orders/PlaceOrder';
+import Account from '../Account/Account';
+import Projects from '../Projects/Projects';
+import SelectUIView from './SelectUIView';
+import { useAuth0 } from "../react-auth0-wrapper";
+import { Grid, Paper, Button } from '@material-ui/core';
+
 
 const drawerWidth = 240;
 
@@ -83,15 +91,20 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
     },
+    logOutButton: {
+      marginBottom: '10px',
+      textTransform: 'capitalize'
+    }
   }),
 );
 
 export default function SideDrawer(props: any) {
-{console.log(props)}
+
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const { userUIView, handleUserUIViewChange } = props
+  const { logout, auth0 } = useAuth0()
 
 
   const handleDrawerOpen = () => {
@@ -102,8 +115,8 @@ export default function SideDrawer(props: any) {
     setOpen(false);
   };
 
-  const onClickUpdateView = (event: any) => {
-    const userCategoryView = event.currentTarget.value
+  const onClickUpdateView = (text: String) => {
+    const userCategoryView = text
     console.log("current pg: " + userCategoryView)
     handleUserUIViewChange(userCategoryView)
   }
@@ -118,20 +131,34 @@ export default function SideDrawer(props: any) {
         })}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="baseline"
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            ShopFlo 
-          </Typography>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, {
+                [classes.hide]: open,
+              })}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Typography style={{marginBottom: '10px'}} variant="h6" noWrap>
+              ShopFlo
+            </Typography>
+
+            <Button className={classes.logOutButton} variant="outlined" onClick={() => logout({ returnTo: 'http://localhost:3000/' })}> 
+              Log out
+            </Button>
+
+          </Grid>
+
         </Toolbar>
       </AppBar>
       <Drawer
@@ -149,38 +176,31 @@ export default function SideDrawer(props: any) {
         open={open}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={onClickUpdateView}>
+          <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
         <Divider />
         <List>
           {['Inventory', 'Projects', 'Orders', 'Account'].map((text, index) => (
-              text === `Inventory` ? 
-              <Link to='/inventory' >
-                <ListItem button key={text} onClick={onClickUpdateView}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-                </ListItem>
-            </Link> :<ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-                </ListItem>
+            <ListItem button onClick={() => onClickUpdateView(text)} key={text}>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
 
           ))}
         </List>
-        
+
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {
-            userUIView === 'Inventory' ? <InventoryUI /> :
-            <div>
-                <Typography paragraph>
-                    This is where all the different components for each user view will show up here
-                </Typography>
-            </div>
-
+          userUIView === 'Inventory' ? <InventoryUI /> :
+            userUIView === 'Orders' ? <Orders userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} /> :
+              userUIView === 'placeOrder' ? <PlaceOrder /> :
+                userUIView === 'Projects' ? <Projects /> :
+                  userUIView === 'Account' ? <Account /> :
+                    <SelectUIView userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} />
         }
       </main>
     </div>
