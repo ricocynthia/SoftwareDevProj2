@@ -1,7 +1,6 @@
 import React from 'react';
 import Assignment from '@material-ui/icons/Assignment';
 import SideDrawer from './SideDrawer';
-import InventoryUI from '../DrawerCategories/InventoryUI';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 
 
@@ -10,6 +9,7 @@ export default function Home(props: any) {
   const handleUserUIViewChange = (viewOnApp: string) => {
     setUserUIView(viewOnApp)
   }
+  
   return (
     <div>
 
@@ -23,11 +23,6 @@ export default function Home(props: any) {
         </Switch>
     </Router>
 
-
-        {/* Future components:
-            <OrderUI />
-            <AcountUI /> 
-        */}
 
 
     </div>
