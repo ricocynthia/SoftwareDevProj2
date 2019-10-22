@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -9,23 +9,26 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Menu from '@material-ui/icons/Menu';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import { Link } from 'react-router-dom';
-import InventoryUI from '../Inventory/InventoryUI';
+import Build from '@material-ui/icons/Build';
+import Store from '@material-ui/icons/Store';
+import Work from '@material-ui/icons/Work';
+import Assignment from '@material-ui/icons/Assignment';
+import { withRouter } from 'react-router-dom';
+import Inventory from '../Inventory/Inventory';
 import Orders from '../Orders/Orders';
-import PlaceOrder from '../Orders/PlaceOrder';
-import Account from '../Account/Account';
-import Projects from '../Projects/Projects';
 import SelectUIView from './SelectUIView';
 import { useAuth0 } from "../react-auth0-wrapper";
-import { Grid, Paper, Button } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
+import Production from '../Production/Production';
+import { useFormControl } from '@material-ui/core/FormControl';
+import ToolsList from '../Inventory/ToolsList';
+import Projects from '../Production/Projects/Projects';
 
 
 const drawerWidth = 240;
@@ -41,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      backgroundColor: '#908172'
+      backgroundColor: '#0456DD'
     },
     appBarShift: {
       marginLeft: drawerWidth,
@@ -93,18 +96,20 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     logOutButton: {
       marginBottom: '10px',
-      textTransform: 'capitalize'
+      textTransform: 'capitalize',
+      color: 'white',
+      border: '1px solid white'
     }
   }),
 );
 
-export default function SideDrawer(props: any) {
+function SideDrawer(props: any) {
 
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const { userUIView, handleUserUIViewChange } = props
-  const { logout, auth0 } = useAuth0()
+  const { logout } = useAuth0()
 
 
   const handleDrawerOpen = () => {
@@ -117,10 +122,29 @@ export default function SideDrawer(props: any) {
 
   const onClickUpdateView = (text: String) => {
     const userCategoryView = text
-    console.log("current pg: " + userCategoryView)
     handleUserUIViewChange(userCategoryView)
   }
 
+  // Handling all the different UI view to display
+  const handleUserUIView = (userUIView: string) => {
+    if(userUIView === 'Inventory'){
+      return <Inventory handleUserUIViewChange={handleUserUIViewChange} />
+    }
+    else if(userUIView === 'Orders'){
+      return <Orders userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} />
+    }
+    else if(userUIView === 'Production'){
+      return <Production userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} />
+    }
+    else if(userUIView === 'ToolsList'){
+      return <ToolsList handleUserUIViewChange={handleUserUIViewChange} />
+    }
+    else if(userUIView === 'Projects'){
+      return <Projects handleUserUIViewChange={handleUserUIViewChange} />
+    }
+    else 
+      return <SelectUIView userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} />
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -146,10 +170,10 @@ export default function SideDrawer(props: any) {
                 [classes.hide]: open,
               })}
             >
-              <MenuIcon />
+              <Menu />
             </IconButton>
 
-            <Typography style={{marginBottom: '10px'}} variant="h6" noWrap>
+            <Typography style={{marginBottom: '10px', cursor: 'pointer'}} variant="h6" noWrap onClick={() => handleUserUIViewChange("Home")}>
               ShopFlo
             </Typography>
 
@@ -177,14 +201,20 @@ export default function SideDrawer(props: any) {
       >
         <div className={classes.toolbar}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === 'rtl' ? 
+            <ChevronRight /> : <ChevronLeft />
+            }
           </IconButton>
         </div>
         <Divider />
         <List>
-          {['Inventory', 'Projects', 'Orders', 'Account'].map((text, index) => (
+          {['Inventory', 'Orders', 'Production'].map((text, index) => (
             <ListItem button onClick={() => onClickUpdateView(text)} key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>
+              {index === 0 ? <Build /> : 
+                index === 1 ? <Store /> :
+                    <Assignment /> }
+              </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
 
@@ -194,15 +224,10 @@ export default function SideDrawer(props: any) {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {
-          userUIView === 'Inventory' ? <InventoryUI /> :
-            userUIView === 'Orders' ? <Orders userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} /> :
-              userUIView === 'placeOrder' ? <PlaceOrder /> :
-                userUIView === 'Projects' ? <Projects /> :
-                  userUIView === 'Account' ? <Account /> :
-                    <SelectUIView userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} />
-        }
+        { handleUserUIView(userUIView) }
       </main>
     </div>
   );
 }
+
+export default withRouter(SideDrawer)

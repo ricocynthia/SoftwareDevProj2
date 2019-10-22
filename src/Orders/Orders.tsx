@@ -1,30 +1,36 @@
 import React from 'react';
 import OrdersTable from './OrdersTable';
-import { Typography } from '@material-ui/core';
-import PlaceOrder from './PlaceOrder';
+import { Typography, makeStyles, Theme, createStyles, Button } from '@material-ui/core';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    placeOrderButton: {
+      fontWeight: 600,
+      cursor: 'pointer',
+      position: 'absolute',
+      right: 0,
+      marginRight: '20px'
+    },
+    spacer: {
+      height: 50
+    }
+  }),
+);
 
 export default function Orders(props: any) {
-  const { userUIView, handleUserUIViewChange } = props
+  const { handleUserUIViewChange } = props
+  const classes = useStyles()
+
   const onClickUpdateView = (text: String) => {
     const userCategoryView = text
-    console.log("current pg: " + userCategoryView)
     handleUserUIViewChange(userCategoryView)
   }
 
   return (
     <div>
-      <Typography variant="button" onClick={() => onClickUpdateView("placeOrder")}>
-        Place an order
-      </Typography>
-
-      <Typography>
-        Current Orders:
-      </Typography>
-
+      <h1> Orders </h1>
       <OrdersTable />
-      
-
-
+    
     </div>
   );
 }

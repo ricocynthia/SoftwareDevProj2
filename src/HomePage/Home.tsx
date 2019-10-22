@@ -23,8 +23,6 @@ export default function Home(props: any) {
         </Switch>
     </Router>
 
-
-
     </div>
   );
 }
