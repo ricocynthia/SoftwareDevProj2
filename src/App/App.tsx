@@ -4,6 +4,8 @@ import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from '../HomePage/Home';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Typography, makeStyles, Theme, createStyles } from '@material-ui/core';
+import user from "../../backend/apps/User/controllers/resolvers/user.resolvers";
+// import express, { Request, Response } from "express";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   }),
 );
-
 
 function App(props: any) {
   const classes = useStyles()
