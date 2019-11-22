@@ -60,48 +60,24 @@ export default function SelectUIView(props: any) {
                             </Card>
                         </Grid>
 
-                        <Grid key={"Orders"} item>
+                        <Grid key={"Projects"} item>
                             <Card className={classes.card}>
-                                <CardActionArea onClick={() => handleUserUIViewChange("Orders")}>
+                                <CardActionArea onClick={() => handleUserUIViewChange("Projects")}>
                                     <CardMedia
                                         className={classes.media}
-                                        image={"https://software-dev-proj.s3-us-west-1.amazonaws.com/Orders.jpg"}
+                                        image={"https://software-dev-proj.s3-us-west-1.amazonaws.com/Projects.jpg"}
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="h2">
-                                            Orders
+                                            Projects
                                         </Typography>
                                         <Typography variant="body2" color="textSecondary" component="p">
-                                            Check the status of current or incoming orders.
+                                            Get a closer look at the details of current projects employees are working on.
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>
                                 <CardActions>
-                                    <Button size="small" color="primary" fullWidth onClick={() => handleUserUIViewChange("Orders")}>
-                                        View More
-                                    </Button>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-
-                        <Grid key={"Production"} item>
-                            <Card className={classes.card}>
-                                <CardActionArea onClick={() => handleUserUIViewChange("Production")}>
-                                    <CardMedia
-                                        className={classes.media}
-                                        image={"https://software-dev-proj.s3-us-west-1.amazonaws.com/Production.jpg"}
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            Production
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            Get a closer look at the status of production items.
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                                    <Button size="small" color="primary" fullWidth onClick={() => handleUserUIViewChange("Production")}>
+                                    <Button size="small" color="primary" fullWidth onClick={() => handleUserUIViewChange("Projects")}>
                                         View More
                                     </Button>
                                 </CardActions>

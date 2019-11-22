@@ -21,14 +21,11 @@ import Work from '@material-ui/icons/Work';
 import Assignment from '@material-ui/icons/Assignment';
 import { withRouter } from 'react-router-dom';
 import Inventory from '../Inventory/Inventory';
-import Orders from '../Orders/Orders';
 import SelectUIView from './SelectUIView';
-import { useAuth0 } from "../react-auth0-wrapper";
 import { Grid, Button } from '@material-ui/core';
-import Production from '../Production/Production';
 import { useFormControl } from '@material-ui/core/FormControl';
 import ToolsList from '../Inventory/ToolsList';
-import Projects from '../Production/Projects/Projects';
+import Projects from '../Projects/Projects';
 
 
 const drawerWidth = 240;
@@ -109,7 +106,6 @@ function SideDrawer(props: any) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const { userUIView, handleUserUIViewChange } = props
-  const { logout } = useAuth0()
 
 
   const handleDrawerOpen = () => {
@@ -130,17 +126,11 @@ function SideDrawer(props: any) {
     if(userUIView === 'Inventory'){
       return <Inventory handleUserUIViewChange={handleUserUIViewChange} />
     }
-    else if(userUIView === 'Orders'){
-      return <Orders userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} />
-    }
-    else if(userUIView === 'Production'){
-      return <Production userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} />
+    else if(userUIView === 'Projects'){
+      return <Projects userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} />
     }
     else if(userUIView === 'ToolsList'){
       return <ToolsList handleUserUIViewChange={handleUserUIViewChange} />
-    }
-    else if(userUIView === 'Projects'){
-      return <Projects handleUserUIViewChange={handleUserUIViewChange} />
     }
     else 
       return <SelectUIView userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} />
@@ -177,7 +167,7 @@ function SideDrawer(props: any) {
               ShopFlo
             </Typography>
 
-            <Button className={classes.logOutButton} variant="outlined" onClick={() => logout({ returnTo: 'http://localhost:3000/' })}> 
+            <Button className={classes.logOutButton} variant="outlined"> 
               Log out
             </Button>
 
@@ -208,12 +198,10 @@ function SideDrawer(props: any) {
         </div>
         <Divider />
         <List>
-          {['Inventory', 'Orders', 'Production'].map((text, index) => (
+          {['Inventory', 'Projects'].map((text, index) => (
             <ListItem button onClick={() => onClickUpdateView(text)} key={text}>
               <ListItemIcon>
-              {index === 0 ? <Build /> : 
-                index === 1 ? <Store /> :
-                    <Assignment /> }
+              {index === 0 ? <Build /> : <Assignment /> }
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>

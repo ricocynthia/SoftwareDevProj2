@@ -47,7 +47,7 @@ export default function Inventory(props: any) {
               <CardActionArea onClick={() => handleOnClick('ToolsList')}>
                 <CardMedia
                   className={classes.media}
-                  image={"https://software-dev-proj.s3-us-west-1.amazonaws.com/Projects.jpg"}
+                  image={"https://software-dev-proj.s3-us-west-1.amazonaws.com/metal-wheels.jpg"}
                 />
                 <CardContent>
                   <Typography align='center' variant="h5" component="h2">
@@ -73,27 +73,6 @@ export default function Inventory(props: any) {
                 <CardContent>
                   <Typography align='center' variant="h5" component="h2">
                     Materials List
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button size="small" color="primary" fullWidth>
-                  View More
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-
-          <Grid key={"Fixtures"} item>
-            <Card className={classes.card}>
-              <CardActionArea >
-                <CardMedia
-                  className={classes.media}
-                  image={"https://software-dev-proj.s3-us-west-1.amazonaws.com/Orders.jpg"}
-                />
-                <CardContent>
-                  <Typography align='center' variant="h5" component="h2">
-                    Available Fixtures
                   </Typography>
                 </CardContent>
               </CardActionArea>

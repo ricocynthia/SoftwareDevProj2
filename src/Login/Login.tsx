@@ -5,7 +5,6 @@ import {
     Divider, Theme, createStyles
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
-import { useAuth0 } from "../react-auth0-wrapper";
 import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -56,7 +55,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Login = (props: any) => {
     const classes = useStyles();
-    const { isAuthenticated, loginWithRedirect } = useAuth0();
     const { history } = props
 
     return (
@@ -69,21 +67,17 @@ const Login = (props: any) => {
                         <LockIcon />
                         <Typography variant="h6" style={{ marginBottom: "6px" }}> Welcome to ShopFlo! </Typography>
 
-                        
 
-                        {!isAuthenticated && (
                             <div className={classes.divSpacing}>
-                                <Button variant='contained' className={classes.button} onClick={() => loginWithRedirect({})}>
+                                <Button variant='contained' className={classes.button} onClick={() =>                             history.push({
+                                pathname: '/home'
+                            })}>
                                     Log in
                             </Button>
                             </div>
-                        )}
 
-                        {isAuthenticated &&
-                            history.push({
-                                pathname: '/home'
-                            })
-                        }
+
+                        
 
                     </div>
 
