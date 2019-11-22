@@ -2,7 +2,7 @@ import React from 'react';
 import {
     Button, Container,
     Typography, makeStyles,
-    Divider, Theme, createStyles
+    Divider, Theme, createStyles, TextField
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import { withRouter } from 'react-router-dom';
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         containerClass: {
             backgroundColor: 'white',
-            height: '300px',
+            height: '400px',
             boxShadow: '5px 5px 5px #777777',
             alignContent: 'center'
         },
@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: '16px',
             marginBottom: '16px',
             fontWeight: 600
+        },
+        inputSpacing: {
+            marginBottom: "20px"
         },
         divSpacing: {
             marginTop: '10px'
@@ -66,10 +69,26 @@ const Login = (props: any) => {
                     <div style={{ marginTop: "10px" }}>
                         <LockIcon />
                         <Typography variant="h6" style={{ marginBottom: "6px" }}> Welcome to ShopFlo! </Typography>
-
+                            <div className={classes.inputSpacing}>
+                                <TextField
+                                    variant="outlined"
+                                    label="username or employee ID"
+                                    required
+                                    style={{ width: "350px" }} />
+                            </div>
 
                             <div className={classes.divSpacing}>
-                                <Button variant='contained' className={classes.button} onClick={() =>                             history.push({
+                                <TextField
+                                    variant="outlined"
+                                    type='password'
+                                    label="password"
+                                    required
+                                    style={{ width: "350px" }} />
+                            </div>
+
+                            <div className={classes.divSpacing}>
+                                <Button variant='contained' className={classes.button} onClick={() =>                             
+                                history.push({
                                 pathname: '/home'
                             })}>
                                     Log in
