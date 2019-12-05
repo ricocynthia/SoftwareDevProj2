@@ -65,7 +65,7 @@ export default function Inventory(props: any) {
 
           <Grid key={"Materials"} item>
             <Card className={classes.card}>
-              <CardActionArea>
+              <CardActionArea onClick={() => handleOnClick('MaterialsList')}>
                 <CardMedia
                   className={classes.media}
                   image={"https://software-dev-proj.s3-us-west-1.amazonaws.com/Inventory.jpg"}
@@ -77,7 +77,7 @@ export default function Inventory(props: any) {
                 </CardContent>
               </CardActionArea>
               <CardActions>
-                <Button size="small" color="primary" fullWidth>
+                <Button size="small" color="primary" fullWidth onClick={() => handleOnClick('MaterialsList')}>
                   View More
                 </Button>
               </CardActions>
