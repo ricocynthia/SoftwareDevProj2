@@ -26,6 +26,7 @@ import { Grid, Button } from '@material-ui/core';
 import { useFormControl } from '@material-ui/core/FormControl';
 import ToolsList from '../Inventory/ToolsList';
 import Projects from '../Projects/Projects';
+import MaterialsTable from '../Inventory/Materialstable';
 
 
 const drawerWidth = 240;
@@ -131,6 +132,9 @@ function SideDrawer(props: any) {
     }
     else if(userUIView === 'ToolsList'){
       return <ToolsList handleUserUIViewChange={handleUserUIViewChange} />
+    }
+    else if(userUIView === 'MaterialsList'){
+      return <MaterialsTable handleUserUIViewChange={handleUserUIViewChange} />
     }
     else 
       return <SelectUIView userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} />
