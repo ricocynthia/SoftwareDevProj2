@@ -4,6 +4,8 @@ import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from '../HomePage/Home';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Typography, makeStyles, Theme, createStyles } from '@material-ui/core';
+import ApiService from '../ApiService';
+import superagent from 'superagent';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,8 +22,23 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+
+
 function App(props: any) {
-  const classes = useStyles()
+  const classes = useStyles();
+  const apiKey = 'key';
+
+  async function testAPI() {
+    const result = await superagent.get('https://csc443-project-main-api.herokuapp.com/material').set('Content-Type', 'application/x-www-form-urlencoded').send({
+      key: apiKey,
+      query: "{getMaterials{id name type}}"
+    })
+
+    console.log(result)
+  }
+
+  testAPI()
+
 
   // if (loading) {
   //   return (
