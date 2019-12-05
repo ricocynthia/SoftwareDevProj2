@@ -109,6 +109,11 @@ export default function Projects(props: any) {
       { scrapID: 123, material: 'metal', qty: 2, size: '11x15"' }
     ]}
   )
+  const [state, setState] = React.useState({
+    data: [
+      { jobNumber: '611167-B', dueDate: 5, status: "Not Started" }
+    ],
+  })
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue); 
@@ -127,6 +132,34 @@ export default function Projects(props: any) {
         data={[
           { jobNumber: '611167-B', dueDate: 5, status: "Not Started" }
         ]}
+        editable={{
+          onRowAdd: (newData: {
+            jobNumber: string;
+            dueDate: number;
+            status: string;
+          }) =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+                const data = [...state.data];
+                data.push(newData);
+                setState({ ...state, data });
+              }, 600);
+            }),
+            onRowUpdate: (newData: {
+              jobNumber: string;
+              dueDate: number;
+              status: string;
+            }, oldData: any) =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  const data = [...state.data];
+                  data[data.indexOf(oldData)] = newData;
+                  setState({ ...state, data });
+                }, 600);
+              }),
+        }}
         detailPanel={[
           {
             tooltip: 'Details',
