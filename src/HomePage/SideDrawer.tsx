@@ -27,9 +27,10 @@ import { useFormControl } from '@material-ui/core/FormControl';
 import ToolsList from '../Inventory/ToolsList';
 import Projects from '../Projects/Projects';
 import MaterialsTable from '../Inventory/Materialstable';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 
-const drawerWidth = 240;
+const drawerWidth = 150;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,31 +38,22 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
     },
     appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      backgroundColor: '#0456DD'
-    },
-    appBarShift: {
-      marginLeft: drawerWidth,
       width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    menuButton: {
-      marginRight: 36,
-    },
-    hide: {
-      display: 'none',
+      marginLeft: drawerWidth,
     },
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
-      whiteSpace: 'nowrap',
+      backgroundColor: '#c6cfd2',
+    },
+    drawerPaper: {
+      width: drawerWidth,
+      backgroundColor: '#d2cdc6'
+    },
+    toolbar: theme.mixins.toolbar,
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(10),
     },
     drawerOpen: {
       width: drawerWidth,
@@ -81,59 +73,47 @@ const useStyles = makeStyles((theme: Theme) =>
         width: theme.spacing(9) + 1,
       },
     },
-    toolbar: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      padding: theme.spacing(0, 1),
-      ...theme.mixins.toolbar,
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
     logOutButton: {
       marginBottom: '10px',
       textTransform: 'capitalize',
       color: 'white',
       border: '1px solid white'
-    }
+    },
   }),
+  
 );
 
 function SideDrawer(props: any) {
 
   const classes = useStyles();
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
   const { userUIView, handleUserUIViewChange } = props
+  const [selectedIndex, setSelectedIndex] = React.useState();
 
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const handleListItemClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    index: number,
+  ) => {
+    setSelectedIndex(index);
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
-  const onClickUpdateView = (text: String) => {
+  const onClickUpdateView = (text: String, index: number, event: any) => {
+    handleListItemClick(event, index)
+
     const userCategoryView = text
     handleUserUIViewChange(userCategoryView)
   }
 
+
   // Handling all the different UI view to display
   const handleUserUIView = (userUIView: string) => {
-    if(userUIView === 'Inventory'){
-      return <Inventory handleUserUIViewChange={handleUserUIViewChange} />
-    }
-    else if(userUIView === 'Projects'){
+    if(userUIView === 'Projects'){
       return <Projects userUIView={userUIView} handleUserUIViewChange={handleUserUIViewChange} />
     }
-    else if(userUIView === 'ToolsList'){
+    else if(userUIView === 'Tools'){
       return <ToolsList handleUserUIViewChange={handleUserUIViewChange} />
     }
-    else if(userUIView === 'MaterialsList'){
+    else if(userUIView === 'Materials'){
       return <MaterialsTable handleUserUIViewChange={handleUserUIViewChange} />
     }
     else 
@@ -142,82 +122,48 @@ function SideDrawer(props: any) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <Grid
-            container
-            direction="row"
-            justify="space-between"
-            alignItems="baseline"
-          >
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              className={clsx(classes.menuButton, {
-                [classes.hide]: open,
-              })}
-            >
-              <Menu />
-            </IconButton>
-
-            <Typography style={{marginBottom: '10px', cursor: 'pointer'}} variant="h6" noWrap onClick={() => handleUserUIViewChange("Home")}>
-              ShopFlo
-            </Typography>
-
-            <Button className={classes.logOutButton} variant="outlined"> 
-              Log out
-            </Button>
-
-          </Grid>
-
-        </Toolbar>
-      </AppBar>
       <Drawer
+        className={classes.drawer}
         variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
         classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
+          paper: classes.drawerPaper,
         }}
-        open={open}
+        anchor="left"
       >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? 
-            <ChevronRight /> : <ChevronLeft />
-            }
-          </IconButton>
+        <div className={classes.toolbar} style={{textAlign: "center", cursor: 'pointer'}} onClick={() => handleUserUIViewChange("Home")} >
+  
+          <SettingsIcon fontSize="large" style={{width: "140px", height: "100px", color: "#8f8070", marginBottom: "0px"}} />
+          <Typography variant="subtitle1" gutterBottom style={{ marginTop: "0px", fontWeight: 600}}> Shop Flow </Typography>
+        
         </div>
         <Divider />
         <List>
-          {['Inventory', 'Projects'].map((text, index) => (
-            <ListItem button onClick={() => onClickUpdateView(text)} key={text}>
-              <ListItemIcon>
-              {index === 0 ? <Build /> : <Assignment /> }
-              </ListItemIcon>
-              <ListItemText primary={text} />
+          {['Tools', 'Materials', 'Projects'].map((text, index) => (
+            <ListItem 
+              button 
+              onClick={(event) => onClickUpdateView(text, index, event)} 
+              selected={selectedIndex === index}
+              key={text} 
+              style={{textAlign: "center"}}>
+              <ListItemText primary={text}  />
             </ListItem>
 
           ))}
-        </List>
 
+        </List>
+            <Button 
+              style={{marginTop: 10}}
+              variant='contained' 
+              fullWidth> Log out </Button>
       </Drawer>
+
+
+
       <main className={classes.content}>
         <div className={classes.toolbar} />
         { handleUserUIView(userUIView) }
       </main>
+
     </div>
   );
 }

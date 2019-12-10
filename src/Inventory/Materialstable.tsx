@@ -20,6 +20,7 @@ import { Button, Dialog, DialogTitle, DialogContent, Typography, DialogActions, 
 import Beenhere from '@material-ui/icons/Beenhere';
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import CheckoutPopup from './CheckoutPopup';
+import EmployeeCheckOutMaterialsTable from './EmployeeCheckOutMaterialsTable';
 
 
 export default function MaterialsTable(props: any) {
@@ -87,10 +88,10 @@ export default function MaterialsTable(props: any) {
 
 
   return (
-    <div>
-      <Button onClick={() => handleUserUIViewChange('Inventory')}>
+    <div style={{width: "100%"}}>
+      {/* <Button onClick={() => handleUserUIViewChange('Inventory')}>
         <ArrowBack /> Inventory Lists
-      </Button>
+      </Button> */}
       <MaterialTable
         icons={tableIcons}
         title="Materials List"
@@ -155,6 +156,17 @@ export default function MaterialsTable(props: any) {
               }, 600);
             }),
         }}
+        detailPanel={[
+          {
+            tooltip: 'Check-out log',
+            render: () => {
+              return (
+                <EmployeeCheckOutMaterialsTable />
+                
+              )
+            },
+          }
+        ]}
       />
 
     <CheckoutPopup 

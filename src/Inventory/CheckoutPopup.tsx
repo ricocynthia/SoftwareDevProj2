@@ -83,6 +83,11 @@ export default function CheckoutPopup(props: {
                 label="Employee ID:" />
             </ListItem>
 
+            <ListItem key="jobNumber">
+              <TextField
+                label="Job Number:" />
+            </ListItem>
+
             <ListItem key="amount">
               <TextField 
                 label="Amount checking out:"

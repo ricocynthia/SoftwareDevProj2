@@ -120,7 +120,7 @@ export default function Projects(props: any) {
   };
 
   return (
-    <div>
+    <div style={{width: "100%"}}>
       <MaterialTable
         icons={tableIcons}
         title="Projects"
@@ -173,12 +173,12 @@ export default function Projects(props: any) {
                       indicatorColor="primary"
                       textColor="primary"
                       variant="fullWidth"
-                      aria-label="full width tabs example"
+                      // aria-label="full width tabs example"
                     >
                       <Tab label="Part Documentation" {...a11yProps(0)} />
                       <Tab label="Tool List" {...a11yProps(1)} />
-                      <Tab label="Scrap" {...a11yProps(2)} />
-                      <Tab label="Employee Time" {...a11yProps(3)} />
+                      {/* <Tab label="Scrap" {...a11yProps(2)} />
+                      <Tab label="Employee Time" {...a11yProps(3)} /> */}
                     </Tabs>
                   </AppBar>
                   <TabPanel value={value} index={0} dir={theme.direction}>
@@ -191,12 +191,14 @@ export default function Projects(props: any) {
                     <li> Tool name: XXXXX, Qty: XX</li>
                     <li> Tool name: XXXXX, Qty: XX</li>
                   </TabPanel>
+                  {
+                  /* Hold off on these for now...
                   <TabPanel value={value} index={2} dir={theme.direction}>
                   
                   </TabPanel>
                   <TabPanel value={value} index={3} dir={theme.direction}>
                     Employee Time
-                  </TabPanel>
+                  </TabPanel> */}
                 </div>
               )
             },

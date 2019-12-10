@@ -4,19 +4,25 @@ import SideDrawer from './SideDrawer';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 
 
+
+
 export default function Home(props: any) {
   const [userUIView, setUserUIView] = React.useState('')
   const handleUserUIViewChange = (viewOnApp: string) => {
     setUserUIView(viewOnApp)
   }
-  
+
+
+
   return (
-    <div>
+
+    <div style={{  height: '100%', width: '100%', position: 'fixed' }}>
 
     <Router>
-        <Switch>
-
-        <SideDrawer handleUserUIViewChange={handleUserUIViewChange} userUIView={userUIView} />
+        <Switch>        
+        <SideDrawer
+          handleUserUIViewChange={handleUserUIViewChange} 
+          userUIView={userUIView} />
 
             <Route path="/inventory"  />
 

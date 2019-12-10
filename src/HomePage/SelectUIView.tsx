@@ -1,5 +1,9 @@
 import React from 'react';
-import { Grid, makeStyles, Theme, createStyles, Paper, Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button } from '@material-ui/core';
+import { Grid, makeStyles, Theme, createStyles, Paper, Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ToolList from '../Inventory/ToolsList';
+import MaterialsTable from '../Inventory/Materialstable';
+import Projects from '../Projects/Projects';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,6 +26,15 @@ const useStyles = makeStyles((theme: Theme) =>
         media: {
             height: 140,
           },
+          heading: {
+            fontSize: theme.typography.pxToRem(15),
+            flexBasis: '33.33%',
+            flexShrink: 0,
+          },
+          secondaryHeading: {
+            fontSize: theme.typography.pxToRem(15),
+            color: theme.palette.text.secondary,
+          },
         
     }),
 );
@@ -29,63 +42,60 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function SelectUIView(props: any) {
     const classes = useStyles();
     const { userUIView, handleUserUIViewChange } = props
+    const [expanded, setExpanded] = React.useState<string | false>('panel1');
 
+    const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
+        setExpanded(isExpanded ? panel : false);
+    };
 
     return (
-        <Grid container className={classes.root} spacing={0} >
-            <Grid item lg={12}>
-                <Grid className={classes.gridInBetweenSpacing} container justify="center" spacing={5}>
+        <div className={classes.root} >
+        <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+          >
+            <Typography className={classes.heading}>Tools List</Typography>
+            <Typography className={classes.secondaryHeading}> Expand for more information on tools. </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails >
+            <ToolList />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <ExpansionPanel expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2bh-content"
+            id="panel2bh-header"
+          >
+            <Typography className={classes.heading}>Materials List</Typography>
+            <Typography className={classes.secondaryHeading}>
+              Expand for more information on materials.
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <MaterialsTable />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <ExpansionPanel expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel3bh-content"
+            id="panel3bh-header"
+          >
+            <Typography className={classes.heading}>Projects</Typography>
+            <Typography className={classes.secondaryHeading}>
+              Expand for more details about company projects.
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Projects />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        
+      </div>
 
-                        <Grid key={"Inventory"} item>
-                            <Card className={classes.card}>
-                                <CardActionArea onClick={() => handleUserUIViewChange("Inventory")}>
-                                    <CardMedia
-                                        className={classes.media}
-                                        image={"https://software-dev-proj.s3-us-west-1.amazonaws.com/Inventory.jpg"}
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            Inventory
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            See more information about your current inventory, supplies, and equipment.
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                                    <Button size="small" color="primary" fullWidth onClick={() => handleUserUIViewChange("Inventory")}>
-                                        View More
-                                    </Button>
-                                </CardActions>
-                            </Card>
-                        </Grid>
 
-                        <Grid key={"Projects"} item>
-                            <Card className={classes.card}>
-                                <CardActionArea onClick={() => handleUserUIViewChange("Projects")}>
-                                    <CardMedia
-                                        className={classes.media}
-                                        image={"https://software-dev-proj.s3-us-west-1.amazonaws.com/Projects.jpg"}
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            Projects
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            Get a closer look at the details of current projects employees are working on.
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                                    <Button size="small" color="primary" fullWidth onClick={() => handleUserUIViewChange("Projects")}>
-                                        View More
-                                    </Button>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-   
-                </Grid>
-            </Grid>
-        </Grid>
     )
 }

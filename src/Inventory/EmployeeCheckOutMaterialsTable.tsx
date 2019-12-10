@@ -18,11 +18,12 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import { Button, Dialog, DialogTitle, DialogContent, Typography, DialogActions, withStyles, IconButton, DialogContentText, TextField } from '@material-ui/core';
 import Beenhere from '@material-ui/icons/Beenhere';
+import ArrowBack from '@material-ui/icons/ArrowBack'
 import CheckoutPopup from './CheckoutPopup';
-import EmployeeCheckOutToolsTable from './EmployeeCheckOutToolsTable';
+import { booleanLiteral } from '@babel/types';
 
 
-export default function ToolList(props: any) {
+export default function MaterialsTable(props: any) {
   const tableIcons: Icons = {
     Add: forwardRef((props, ref: any) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref: any) => <Check {...props} ref={ref} />),
@@ -43,21 +44,25 @@ export default function ToolList(props: any) {
     ViewColumn: forwardRef((props, ref: any) => <ViewColumn {...props} ref={ref} />)
   };
 
-  const {handleUserUIViewChange} = props;
+  const {handleUserUIViewChange } = props;
   const [state, setState] = React.useState({
     columns: [
+      { title: 'Date', field: 'date' },
+      { title: 'Employee ID', field: 'ID' },
       { title: 'Tool Name', field: 'toolName' },
-      { title: 'Quanity of Tool', field: 'qty' },
-      { title: 'Availability', field: 'availability', type: 'boolean' },
+      { title: 'Job Number', field: 'jobNumber' },
+      { title: 'Quantity', field: 'qty' },
+      { title: 'Checked in', field: 'checkedIn', type: Boolean}
     ],
     data: [
-      { toolName: 'Hammer', qty: 5, availabilty: true }
+      { date: '10/25/2019', ID: 'testing employee',
+        toolName: 'Hammer', jobNumber: '611167-B',  qty: 2,
+        checkedIn: false }
 
     ],
   });
 
   const [open, setOpen] = React.useState(false);
-  const [toolName, setToolName] = React.useState('')
   const [qty, setQty] = React.useState(0)
 
   const handleClickOpen = (open: boolean) => {
@@ -69,7 +74,7 @@ export default function ToolList(props: any) {
   }
 
   const updateDataInput = (newData: {
-    toolName: string;
+    matName: string;
     qty: number;
     availabilty: boolean;
     }, oldData: any) =>
@@ -88,41 +93,26 @@ export default function ToolList(props: any) {
 
   return (
     <div style={{width: "100%"}}>
-      {/* <Button onClick={() => handleUserUIViewChange('Inventory')}>
-        <ArrowBack /> Inventory Lists
-      </Button> */}
       <MaterialTable
         icons={tableIcons}
-        title="Tools List"
+        title="Check out log"
         columns={[
-          { title: 'Tool Name', field: 'toolName' },
-          { title: 'Quantity of Tool', field: 'qty' },
-          { title: 'Availability', field: 'availabilty', type: 'boolean' }
+            { title: 'Date', field: 'date' },
+            { title: 'Employee ID', field: 'ID' },
+            { title: 'Tool Name', field: 'toolName' },
+            { title: 'Job Number', field: 'jobNumber' },
+            { title: 'Quantity', field: 'qty' },
+            { title: 'Checked in', field: 'checkedIn', type: 'boolean'}
         ]}
         data={state.data}
-        actions={[
-          {
-            icon: () => <Beenhere />,
-            tooltip: 'Check out tool',
-            onClick: (newData: any, oldData: any) => {
-              setQty(oldData.qty)
-              new Promise(resolve => {
-                setTimeout(() => {
-                  resolve();
-                  handleClickOpen(true);
-                  updateDataInput(newData, oldData);
-                 
-                }, 600);
-              })
-  
-            }
-          }
-        ]}
         editable={{
           onRowAdd: (newData: {
+            date: string;
+            ID: string;
             toolName: string;
+            jobNumber: string;
             qty: number;
-            availabilty: boolean;
+            checkedIn: boolean;
           }) =>
             new Promise(resolve => {
               setTimeout(() => {
@@ -133,9 +123,12 @@ export default function ToolList(props: any) {
               }, 600);
             }),
           onRowUpdate: (newData: {
+            date: string;
+            ID: string;
             toolName: string;
+            jobNumber: string;
             qty: number;
-            availabilty: boolean;
+            checkedIn: boolean;
           }, oldData: any) =>
             new Promise(resolve => {
               setTimeout(() => {
@@ -155,26 +148,8 @@ export default function ToolList(props: any) {
               }, 600);
             }),
         }}
-        detailPanel={[
-          {
-            tooltip: 'Check-out log',
-            render: () => {
-              return (
-                <EmployeeCheckOutToolsTable  />
-                
-              )
-            },
-          }
-        ]}
       />
 
-    <CheckoutPopup 
-      handleClickOpen={handleClickOpen} 
-      open={open} 
-      toolName={toolName}
-      updateQty={updateQty} 
-      qty={qty}
-    />
 
     </div>
   );
